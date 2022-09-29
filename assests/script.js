@@ -80,6 +80,7 @@ function init() {
   } else {
     cityNamesArray = holder;
   }
+  save();
 }
 
 // Helper function that saves cityNamesArray to local storage
