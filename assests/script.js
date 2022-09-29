@@ -71,5 +71,6 @@ function getUAsalaries(salaries) {
 $("#search-button").on('click', function(event) {
   event.preventDefault();
   var city = $('#city-name-search').val();
+  var city = "chicago";
   getCity(city);
 });
