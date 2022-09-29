@@ -56,7 +56,10 @@ function getUAdetails(details) {
     return response.json();
   })
   .then(function (data) {
-    // console.log(data);
+    console.log(data);
+    var cat = data.categories;
+    var citySize = cat[1].data[0].float_value;
+    dynamicCard(citySize);
   });
 }
 
@@ -70,14 +73,14 @@ function getUAsalaries(salaries) {
   });
 }
 
-function dynamicCard(){
+function dynamicCard(citySize){
   var cardDeck=$('.card-deck');
 
   var card=$('<div class=card>');
   var carImg=$('<img class=card-img-top>');
   var cardBody=$('<div class=card-body>');
-  var cardTitle=$('<h5 class=card-title>');
-  var cardText=$('<p class=card-text>');
+  var cardTitle=$('<h5 class=card-title>').text();
+  var cardText=$('<p class=card-text>').text("Pop: " + citySize + " million");
 
   cardDeck.append(card);
   card.append(carImg,cardBody);
@@ -86,6 +89,4 @@ function dynamicCard(){
 
 for (var i = 0; i < citySearches.length; i++) {
   getCity(citySearches[i]);
-  console.log(citySearches.length);
-  dynamicCard();
 }
