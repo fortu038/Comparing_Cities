@@ -99,6 +99,7 @@ $("#search-button").on('click', function(event) {
     cityNamesArray.push($(`#city-name-search-${i}`).val());
   }
   save();
+  window.location.href = "index2.html";
 });
 
 init();
