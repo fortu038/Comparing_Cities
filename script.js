@@ -70,8 +70,6 @@ function getUAsalaries(salaries) {
 
 $("#search-button").on('click', function(event) {
   event.preventDefault();
-  console.log("click");
   var city = $('#city-name-search').val();
-  console.log(city);
   getCity(city);
 });
