@@ -1,10 +1,5 @@
 var citySearches = JSON.parse(localStorage.getItem("cityNamesArray"));
 
-for (var i = 0; i < citySearches.length; i++) {
-  getCity(citySearches[i]);
-  console.log(citySearches[i]);
-}
-
 function getCity(city) {
   fetch('https://api.teleport.org/api/cities/?search=' + city)
   .then(function (response) {
@@ -51,7 +46,7 @@ function getUAscores(scores) {
     return response.json();
   })
   .then(function (data) {
-    console.log(data);
+    // console.log(data);
   });
 }
 
@@ -61,7 +56,7 @@ function getUAdetails(details) {
     return response.json();
   })
   .then(function (data) {
-    console.log(data);
+    // console.log(data);
   });
 }
 
@@ -71,6 +66,26 @@ function getUAsalaries(salaries) {
     return response.json();
   })
   .then(function (data) {
-    console.log(data);
+    // console.log(data);
   });
+}
+
+function dynamicCard(){
+  var cardDeck=$('.card-deck');
+
+  var card=$('<div class=card>');
+  var carImg=$('<img class=card-img-top>');
+  var cardBody=$('<div class=card-body>');
+  var cardTitle=$('<h5 class=card-title>');
+  var cardText=$('<p class=card-text>');
+
+  cardDeck.append(card);
+  card.append(carImg,cardBody);
+  cardBody.append(cardTitle,cardText);
+}
+
+for (var i = 0; i < citySearches.length; i++) {
+  getCity(citySearches[i]);
+  console.log(citySearches.length);
+  dynamicCard();
 }
