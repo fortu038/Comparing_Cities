@@ -4,11 +4,49 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <link
+    rel="stylesheet"
+    href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    />
+    <title>Comparing Cities Landing Page</title>
 </head>
+
 <body>
+    <!-- Header at the top of the page -->
+    <header class="bg-info text-light">
+        <h1>Comparing Cities</h1>
+    </header>
+
+    <!-- Using column set-up so that element size can be changed relatively easily -->
+    <section class="container">
+        <div class="row">
+            <!-- search-area will handle displaying search features -->
+            <div id="search-area" class="col-12">
+                <h2>Search for a City:</h2>
+                <!-- Typed out search menu option; this may be replaced in future -->
+                <form id="manual-search">
+                    <div class="form-group">
+                      <input class="form-control" id="city_name_search" placeholder="Type a City Name" />
+                    </div>
+                    <button type="button" id="search_button" class="btn btn-info">Search</button>
+                </form>
+                <!-- Dropdown menu option; to be handle at a later date possibly -->
+                <!-- <div id="drop-search" class="dropdown">
+                    <button class="btn btn-info dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Dropdown button
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <a class="dropdown-item" href="#">Example1</a>
+                        <a class="dropdown-item" href="#">Example2</a>
+                        <a class="dropdown-item" href="#">Example3</a>
+                    </div>
+                </div> -->
+            </div>
+        </div>
+    </section>
     
 
     <script src="./assests/script.js/."></script>
 </body>
+
 </html>
