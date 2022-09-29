@@ -1,3 +1,14 @@
+function getCity(city) {
+  fetch('https://api.teleport.org/api/cities/?search=' + city)
+  .then(function (response) {
+    return response.json();
+  })
+  .then(function (data) {
+    var geo = data._embedded["city:search-results"][0]._links["city:item"].href;
+    getAPI(geo);
+  });
+}
+
 function getAPI(city) {
   fetch(city)
   .then(function (response) {
@@ -8,17 +19,6 @@ function getAPI(city) {
     var urbanArea = data._links["city:urban_area"].href;
     getUA(urbanArea);
     // getCountry(country);
-  });
-}
-
-function getCity(city) {
-  fetch('https://api.teleport.org/api/cities/?search=' + city)
-  .then(function (response) {
-    return response.json();
-  })
-  .then(function (data) {
-    var geo = data._embedded["city:search-results"][0]._links["city:item"].href;
-    getAPI(geo);
   });
 }
 
@@ -68,9 +68,9 @@ function getUAsalaries(salaries) {
   });
 }
 
-
-$('#submitBtn').on('click', function(event) {
+$("#search-button").on('click', function(event) {
   event.preventDefault();
-  var city = $('#searchInput').val();
+  var city = $('#city-name-search').val();
+  var city = "chicago";
   getCity(city);
 });
