@@ -91,10 +91,6 @@ function save() {
   localStorage.setItem("cityNamesArray", JSON.stringify(cityNamesArray));
 }
 
-// function checkForNumbers(string) {
-//   return !isNaN(parseFloat(string)) && isFinite(string);
-// }
-
 // Helper function that checks for numbers in a given string
 // @param str: The string that is being checked for numbers
 // @return: True if the string contains a number, false if it does not contain a number
@@ -105,7 +101,7 @@ function checkForNumbers(str) {
 
 // Helper function that capitalizes the first letter of each word in a given string
 // @param str: The string that is having the first letter of each of its words capitalized
-// @return: A string which has each word capitalized
+// @return: A string which has each word's first letter capitalized
 function capitalizeFirstLetter(str) {
   var splitHolder = str.split(" ");
   for(var i = 0; i < splitHolder.length; i++) {
@@ -115,25 +111,43 @@ function capitalizeFirstLetter(str) {
   return splitHolder.join(" ");
 }
 
+// Helper function that checks to see if a given string is composed entirely of spaces
+// @param str: The string that is being checked
+// @return: True if the given string is entirely composed of spaces, false if it is not
+function isJustSpaces(str) {
+  var trackerBool = true;
+  for(var i = 0; i < str.length; i++) {
+    if(str[i] != " ") {
+      trackerBool = false;
+      break;
+    }
+  }
+
+  return trackerBool;
+}
+
+// Event listener for the search button
 $("#search-button").on('click', function(event) {
   event.preventDefault();
-  var trackerBool = false;
+  var numTrackerBool = false;
+  var blankTrackerBool = false;
   cityNamesArray = [];
   for(var i = 1; i < 4; i++) {
     var valHolder = $(`#city-name-search-${i}`).val();
-    // console.log(valHolder);
-    var boolHolder = checkForNumbers(valHolder);
-    // console.log(boolHolder);
-    if(boolHolder) {
-      trackerBool = true;
+    if(checkForNumbers(valHolder)) {
+      numTrackerBool = true;
+    } else if((valHolder[0] == " ") || (valHolder.length == 0) || isJustSpaces(valHolder)) {
+      blankTrackerBool = true;
+    } else {
+      cityNamesArray.push(capitalizeFirstLetter(valHolder));
     }
-    cityNamesArray.push(capitalizeFirstLetter(valHolder));
   }
 
-  if(trackerBool) {
-    alert("At least one of your entries contains numbers. Please re-enter city names");
+  if(numTrackerBool) {
+    alert("At least one of your entries contains numbers. Please re-enter city names.");
+  } else if(blankTrackerBool) {
+    alert("At least one of your entries is blank, just spaces, or has a leading space. Please re-enter city names.")
   } else {
-    // console.log("no numbers found");
     save();
     window.location.href = "index2.html";
   }
