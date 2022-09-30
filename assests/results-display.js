@@ -8,6 +8,7 @@ var carImg;
 var cardBody;
 var cardTitle;
 var cardItems;
+var cityPop;
 
 // Functions to navigate through API and get the proper data
 
@@ -30,16 +31,16 @@ function getAPI(city) {
   })
   .then(function (data) {
     console.log(data);
-    var cityPop = data.population;
+    cityPop = data.population;
     var country = data._links["city:country"].href;
     var urbanArea = data._links["city:urban_area"].href;
     getUA(urbanArea);
-    displayPopulation(cityPop);
+    displayPopulation();
   });
 }
 
-function displayPopulation(Pop) {
-  cardItems.text("Population: " + Pop)
+function displayPopulation() {
+  cardItems.text("Population: " + cityPop)
 }
 
 function getUA(UA) {
