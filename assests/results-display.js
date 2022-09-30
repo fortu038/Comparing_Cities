@@ -10,6 +10,7 @@ var cardTitle;
 var cardItems;
 var cityName;
 var childElSecondCard;
+var colData = {};
 
 // Functions to navigate through API and get the proper data
 
@@ -70,15 +71,8 @@ function getUAdetails(details) {
     return response.json();
   })
   .then(function (data) {
-    console.log(data);
-    var cat = data.categories;
-    var colInfo = cat[3].data;
-    for (var j = 1; j < colInfo.length; j++) {
-      var label = colInfo[j].label;
-      var cost = colInfo[j].currency_dollar_value;
-      // createSecondCardEl(label, cost);
-      createSecondCard(createSecondCardEl(label, cost));
-    }
+    var colInfo = data.categories[3].data;
+    createSecondCard(colInfo);
   });
 }
 
@@ -88,7 +82,6 @@ function getUAsalaries(salaries) {
     return response.json();
   })
   .then(function (data) {
-    // console.log(data);
   });
 }
 
@@ -109,29 +102,28 @@ function createTopCard(city, cityPop){
   cardBody.append(cardTitle, cardItems);
 }
 
-function createSecondCard(cardItems){
+function createSecondCard(colInfo){
   cardDeck=$('.ua-card-group');
-
+  
   card=$("<div class='col-12 card'>");
   cardBody=$('<div class=card-body>');
   cardTitle=$('<h5 class=card-title>');
-  cardItems=$('<p>');
-  
-  cardItems.text();
 
+  cardTitle.text("Cost of Living");
+  
   cardDeck.append(card);
   card.append(cardBody);
-  cardBody.append(cardTitle, cardItems);
-  cardBody.append(cardItems);
+  cardBody.append(cardTitle);
   
+  for (var i=1; i<colInfo.length; i++) {
+    var cost = colInfo[i].currency_dollar_value;
+    var label = colInfo[i].label;
+    cardItems=$('<p>');
+    cardItems.text(label + ": " + cost);
+    cardBody.append(cardItems)
+  }
 }
 
-function createSecondCardEl(label, cost) {
-  console.log(label, cost);
-  cardItems=$('<p>');
-  cardItems.text(label + ": " + cost);
-  console.log(cardItems)
-}
 
 for (var i = 0; i < citySearches.length; i++) {
   getCity(citySearches[i]);
