@@ -69,8 +69,16 @@ function getUAdetails(details) {
     return response.json();
   })
   .then(function (data) {
-    // console.log(data);
-    // var cat = data.categories;
+    console.log(data);
+    var cat = data.categories;
+    var colInfo = cat[3].data;
+    console.log(colInfo);
+    for (var j = 1; j < colInfo.length; j++) {
+      var label = colInfo[j].label;
+      var cost = colInfo[j].currency_dollar_value;
+      console.log(label);
+      console.log(cost);
+    }
     createSecondCard();
   });
 }
@@ -100,21 +108,20 @@ function createTopCard(city, cityPop){
   cardDeck.append(card);
   card.append(carImg,cardBody);
   cardBody.append(cardTitle, cardItems);
-  
 }
 
 function createSecondCard(){
   cardDeck=$('.ua-card-group');
 
   card=$("<div class='col-12 card'>");
-  carImg=$('<img class=card-img-top>');
   cardBody=$('<div class=card-body>');
   cardTitle=$('<h5 class=card-title>');
   cardItems=$('<p>');
 
   cardDeck.append(card);
-  card.append(carImg,cardBody);
+  card.append(cardBody);
   cardBody.append(cardTitle, cardItems);
+  cardBody.append(cardItems);
   
 }
 
