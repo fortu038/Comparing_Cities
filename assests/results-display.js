@@ -8,6 +8,7 @@ var carImg;
 var cardBody;
 var cardTitle;
 var cardItems;
+var cityName;
 
 // Functions to navigate through API and get the proper data
 
@@ -28,10 +29,8 @@ function getAPI(city) {
     return response.json();
   })
   .then(function (data) {
-    console.log(data);
-    var cityName = data.full_name;
+    cityName = data.name;
     var cityPop = data.population;
-    console.log(cityPop);
     var country = data._links["city:country"].href;
     var urbanArea = data._links["city:urban_area"].href;
     getUA(urbanArea);
@@ -45,7 +44,6 @@ function getUA(UA) {
     return response.json();
   })
   .then(function (data) {
-    // console.log(data);
     var scores = data._links["ua:scores"].href;
     var details = data._links["ua:details"].href;
     var salaries = data._links["ua:salaries"].href;
@@ -73,6 +71,7 @@ function getUAdetails(details) {
   .then(function (data) {
     // console.log(data);
     // var cat = data.categories;
+    createSecondCard();
   });
 }
 
@@ -88,7 +87,7 @@ function getUAsalaries(salaries) {
 
 // Functions to dynamically create the cards and append the cards to the desired info
 function createTopCard(city, cityPop){
-  cardDeck=$('.card-deck');
+  cardDeck=$('.city-card-group');
 
   card=$("<div class='col-12 card'>");
   carImg=$('<img class=card-img-top>');
@@ -98,6 +97,21 @@ function createTopCard(city, cityPop){
 
   cardTitle.text(city)
   cardItems.text("Population: " + cityPop)
+  cardDeck.append(card);
+  card.append(carImg,cardBody);
+  cardBody.append(cardTitle, cardItems);
+  
+}
+
+function createSecondCard(){
+  cardDeck=$('.ua-card-group');
+
+  card=$("<div class='col-12 card'>");
+  carImg=$('<img class=card-img-top>');
+  cardBody=$('<div class=card-body>');
+  cardTitle=$('<h5 class=card-title>');
+  cardItems=$('<p>');
+
   cardDeck.append(card);
   card.append(carImg,cardBody);
   cardBody.append(cardTitle, cardItems);
