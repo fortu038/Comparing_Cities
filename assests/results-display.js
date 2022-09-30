@@ -97,10 +97,10 @@ function getUAsalaries(salaries) {
 function createTopCard(city, cityPop){
   cardDeck=$('.city-card-group');
 
-  card=$("<div class='col-12 card'>");
+  card=$("<div class='col-12 card border-info'>");
   carImg=$('<img class=card-img-top>');
-  cardBody=$('<div class=card-body>');
-  cardTitle=$('<h5 class=card-title>');
+  cardBody=$("<div class='card-body text-info'>");
+  cardTitle=$("<h5 class='card-title text-info'>");
   cardItems=$('<p>');
 
   cardTitle.text(city)
@@ -128,3 +128,25 @@ function createSecondCard(){
 for (var i = 0; i < citySearches.length; i++) {
   getCity(citySearches[i]);
 }
+
+//chart
+
+var chart = c3.generate({
+  data: {
+      x : 'x',
+      columns: [
+          ['x', citySearches[0], citySearches[1], citySearches[2]],
+          ['download', 30, 200, 100, 400],
+          ['loading', 90, 100, 140, 200],
+      ],
+      groups: [
+          ['download', 'loading']
+      ],
+      type: 'bar'
+  },
+  axis: {
+      x: {
+          type: 'category' // this needed to load string x value
+      }
+  }
+});
