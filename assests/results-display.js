@@ -9,6 +9,7 @@ var cardBody;
 var cardTitle;
 var cardItems;
 var cityName;
+var childElSecondCard;
 
 // Functions to navigate through API and get the proper data
 
@@ -72,14 +73,12 @@ function getUAdetails(details) {
     console.log(data);
     var cat = data.categories;
     var colInfo = cat[3].data;
-    console.log(colInfo);
     for (var j = 1; j < colInfo.length; j++) {
       var label = colInfo[j].label;
       var cost = colInfo[j].currency_dollar_value;
-      console.log(label);
-      console.log(cost);
+      // createSecondCardEl(label, cost);
+      createSecondCard(createSecondCardEl(label, cost));
     }
-    createSecondCard();
   });
 }
 
@@ -100,7 +99,7 @@ function createTopCard(city, cityPop){
   card=$("<div class='col-12 card border-info'>");
   carImg=$('<img class=card-img-top>');
   cardBody=$("<div class='card-body text-info'>");
-  cardTitle=$("<h5 class='card-title text-info'>");
+  cardTitle=$("<h3 class='card-title text-info'>");
   cardItems=$('<p>');
 
   cardTitle.text(city)
@@ -110,19 +109,28 @@ function createTopCard(city, cityPop){
   cardBody.append(cardTitle, cardItems);
 }
 
-function createSecondCard(){
+function createSecondCard(cardItems){
   cardDeck=$('.ua-card-group');
 
   card=$("<div class='col-12 card'>");
   cardBody=$('<div class=card-body>');
   cardTitle=$('<h5 class=card-title>');
   cardItems=$('<p>');
+  
+  cardItems.text();
 
   cardDeck.append(card);
   card.append(cardBody);
   cardBody.append(cardTitle, cardItems);
   cardBody.append(cardItems);
   
+}
+
+function createSecondCardEl(label, cost) {
+  console.log(label, cost);
+  cardItems=$('<p>');
+  cardItems.text(label + ": " + cost);
+  console.log(cardItems)
 }
 
 for (var i = 0; i < citySearches.length; i++) {
