@@ -125,21 +125,28 @@ for (var i = 0; i < citySearches.length; i++) {
 //chart
 
 var chart = c3.generate({
+  size: {
+    height: 240,
+    width: 480
+  },
   data: {
       x : 'x',
       columns: [
           ['x', citySearches[0], citySearches[1], citySearches[2]],
           ['download', 30, 200, 100, 400],
-          ['loading', 90, 100, 140, 200],
+          ['loading', 900, 100, 140, 200],
       ],
       groups: [
           ['download', 'loading']
       ],
       type: 'bar'
   },
+  color: {
+    pattern: ['red', 'blue']
+  },
   axis: {
       x: {
-          type: 'category' // this needed to load string x value
+          type: 'category'
       }
   }
 });
