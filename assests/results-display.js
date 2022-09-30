@@ -9,8 +9,6 @@ var cardBody;
 var cardTitle;
 var cardItems;
 var cityName;
-var childElSecondCard;
-var colData = {};
 
 // Functions to navigate through API and get the proper data
 
@@ -71,8 +69,11 @@ function getUAdetails(details) {
     return response.json();
   })
   .then(function (data) {
+    console.log(data);
     var colInfo = data.categories[3].data;
-    createSecondCard(colInfo);
+    var rentInfo = data.categories[8].data;
+    var climateInfo = data.categories[2].data;
+    createSecondCard(colInfo, rentInfo, climateInfo);
   });
 }
 
@@ -102,7 +103,7 @@ function createTopCard(city, cityPop){
   cardBody.append(cardTitle, cardItems);
 }
 
-function createSecondCard(colInfo){
+function createSecondCard(colInfo, rentInfo, climateInfo){
   cardDeck=$('.ua-card-group');
   
   card=$("<div class='col-12 card'>");
@@ -119,11 +120,37 @@ function createSecondCard(colInfo){
     var cost = colInfo[i].currency_dollar_value;
     var label = colInfo[i].label;
     cardItems=$('<p>');
-    cardItems.text(label + ": " + cost);
+    cardItems.text(label + ": $" + cost);
     cardBody.append(cardItems)
   }
-}
 
+  for (var i=0; i<rentInfo.length-1; i++) {
+    var cost = rentInfo[i].currency_dollar_value;
+    var label = rentInfo[i].label;
+    cardItems=$('<p>');
+    cardItems.text(label + ": $" + cost + "/monthly");
+    cardBody.append(cardItems)
+  }
+
+  cardTitle=$('<h5 class=card-title>');
+  cardTitle.text("Climate");
+  cardBody.append(cardTitle);
+
+  for (var i=0; i<climateInfo.length; i++) {
+    var value = climateInfo[i].float_value;
+    var label = climateInfo[i].label;
+    if (value == null) {
+      value = climateInfo[i].percent_value;
+    }
+    if (value == null) {
+      value = climateInfo[i].string_value;
+    }
+    cardItems=$('<p>');
+    cardItems.text(label + ": " + value);
+    cardBody.append(cardItems);
+  }
+  
+}
 
 for (var i = 0; i < citySearches.length; i++) {
   getCity(citySearches[i]);
