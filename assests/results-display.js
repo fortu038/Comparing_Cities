@@ -1,4 +1,16 @@
+//Global Variables
+
 var citySearches = JSON.parse(localStorage.getItem("cityNamesArray"));
+
+var cardDeck;
+var card;
+var carImg;
+var cardBody;
+var cardTitle;
+var cardItems;
+var cityName;
+
+// Functions to navigate through API and get the proper data
 
 function getCity(city) {
   fetch('https://api.teleport.org/api/cities/?search=' + city)
@@ -17,10 +29,12 @@ function getAPI(city) {
     return response.json();
   })
   .then(function (data) {
+    cityName = data.name;
+    var cityPop = data.population;
     var country = data._links["city:country"].href;
     var urbanArea = data._links["city:urban_area"].href;
     getUA(urbanArea);
-    // getCountry(country);
+    createTopCard(cityName, cityPop);
   });
 }
 
@@ -30,7 +44,6 @@ function getUA(UA) {
     return response.json();
   })
   .then(function (data) {
-    // console.log(data);
     var scores = data._links["ua:scores"].href;
     var details = data._links["ua:details"].href;
     var salaries = data._links["ua:salaries"].href;
@@ -56,10 +69,9 @@ function getUAdetails(details) {
     return response.json();
   })
   .then(function (data) {
-    console.log(data);
-    var cat = data.categories;
-    var citySize = cat[1].data[0].float_value;
-    dynamicCard(citySize);
+    // console.log(data);
+    // var cat = data.categories;
+    createSecondCard();
   });
 }
 
@@ -73,18 +85,37 @@ function getUAsalaries(salaries) {
   });
 }
 
-function dynamicCard(citySize){
-  var cardDeck=$('.card-deck');
+// Functions to dynamically create the cards and append the cards to the desired info
+function createTopCard(city, cityPop){
+  cardDeck=$('.city-card-group');
 
-  var card=$('<div class=card>');
-  var carImg=$('<img class=card-img-top>');
-  var cardBody=$('<div class=card-body>');
-  var cardTitle=$('<h5 class=card-title>').text();
-  var cardText=$('<p class=card-text>').text("Pop: " + citySize + " million");
+  card=$("<div class='col-12 card'>");
+  carImg=$('<img class=card-img-top>');
+  cardBody=$('<div class=card-body>');
+  cardTitle=$('<h5 class=card-title>');
+  cardItems=$('<p>');
+
+  cardTitle.text(city)
+  cardItems.text("Population: " + cityPop)
+  cardDeck.append(card);
+  card.append(carImg,cardBody);
+  cardBody.append(cardTitle, cardItems);
+  
+}
+
+function createSecondCard(){
+  cardDeck=$('.ua-card-group');
+
+  card=$("<div class='col-12 card'>");
+  carImg=$('<img class=card-img-top>');
+  cardBody=$('<div class=card-body>');
+  cardTitle=$('<h5 class=card-title>');
+  cardItems=$('<p>');
 
   cardDeck.append(card);
   card.append(carImg,cardBody);
-  cardBody.append(cardTitle,cardText);
+  cardBody.append(cardTitle, cardItems);
+  
 }
 
 for (var i = 0; i < citySearches.length; i++) {
