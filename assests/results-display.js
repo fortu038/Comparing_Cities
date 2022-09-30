@@ -89,10 +89,10 @@ function getUAsalaries(salaries) {
 function createTopCard(city, cityPop){
   cardDeck=$('.city-card-group');
 
-  card=$("<div class='col-12 card'>");
+  card=$("<div class='col-12 card border-info'>");
   carImg=$('<img class=card-img-top>');
-  cardBody=$('<div class=card-body>');
-  cardTitle=$('<h5 class=card-title>');
+  cardBody=$("<div class='card-body text-info'>");
+  cardTitle=$("<h5 class='card-title text-info'>");
   cardItems=$('<p>');
 
   cardTitle.text(city)
