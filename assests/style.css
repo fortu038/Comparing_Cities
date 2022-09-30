@@ -2,3 +2,7 @@
 header{
     padding: 50px;
 }
+
+.card-title {
+    text-transform: capitalize;
+}

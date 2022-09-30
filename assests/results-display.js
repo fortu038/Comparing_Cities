@@ -1,6 +1,18 @@
+//Global Variables
+
 var citySearches = JSON.parse(localStorage.getItem("cityNamesArray"));
 
+var cardDeck;
+var card;
+var carImg;
+var cardBody;
+var cardTitle;
+var cardItems;
+
+// Functions to navigate through API and get the proper data
+
 function getCity(city) {
+  cardTitle.text(city);
   fetch('https://api.teleport.org/api/cities/?search=' + city)
   .then(function (response) {
     return response.json();
@@ -17,11 +29,17 @@ function getAPI(city) {
     return response.json();
   })
   .then(function (data) {
+    console.log(data);
+    var cityPop = data.population;
     var country = data._links["city:country"].href;
     var urbanArea = data._links["city:urban_area"].href;
     getUA(urbanArea);
-    // getCountry(country);
+    displayPopulation(cityPop);
   });
+}
+
+function displayPopulation(Pop) {
+  cardItems.text("Population: " + Pop)
 }
 
 function getUA(UA) {
@@ -56,10 +74,9 @@ function getUAdetails(details) {
     return response.json();
   })
   .then(function (data) {
-    console.log(data);
-    var cat = data.categories;
-    var citySize = cat[1].data[0].float_value;
-    dynamicCard(citySize);
+    // console.log(data);
+    // var cat = data.categories;
+    // var citySize = cat[1].data[0].float_value;
   });
 }
 
@@ -73,20 +90,26 @@ function getUAsalaries(salaries) {
   });
 }
 
-function dynamicCard(citySize){
-  var cardDeck=$('.card-deck');
+// Functions to dynamically create the cards and append the cards to the desired info
+function createCard(){
+  cardDeck=$('.card-deck');
 
-  var card=$('<div class=card>');
-  var carImg=$('<img class=card-img-top>');
-  var cardBody=$('<div class=card-body>');
-  var cardTitle=$('<h5 class=card-title>').text();
-  var cardText=$('<p class=card-text>').text("Pop: " + citySize + " million");
-
+  card=$('<div class=card>');
+  carImg=$('<img class=card-img-top>');
+  cardBody=$('<div class=card-body>');
+  cardTitle=$('<h5 class=card-title>');
+  cardItems=$('<p>');
   cardDeck.append(card);
   card.append(carImg,cardBody);
-  cardBody.append(cardTitle,cardText);
+  cardBody.append(cardTitle, cardItems);
+  
 }
 
+// function createTitleEl() {
+//   var title = 
+// }
+
 for (var i = 0; i < citySearches.length; i++) {
+  createCard();
   getCity(citySearches[i]);
 }
