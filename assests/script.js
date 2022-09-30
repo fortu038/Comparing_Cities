@@ -91,18 +91,52 @@ function save() {
   localStorage.setItem("cityNamesArray", JSON.stringify(cityNamesArray));
 }
 
+// function checkForNumbers(string) {
+//   return !isNaN(parseFloat(string)) && isFinite(string);
+// }
+
+// Helper function that checks for numbers in a given string
+// @param str: The string that is being checked for numbers
+// @return: True if the string contains a number, false if it does not contain a number
+function checkForNumbers(str) {
+  var regex = /\d/g;
+  return regex.test(str);
+} 
+
+// Helper function that capitalizes the first letter of each word in a given string
+// @param str: The string that is having the first letter of each of its words capitalized
+// @return: A string which has each word capitalized
+function capitalizeFirstLetter(str) {
+  var splitHolder = str.split(" ");
+  for(var i = 0; i < splitHolder.length; i++) {
+    splitHolder[i] = splitHolder[i][0].toUpperCase() + splitHolder[i].substr(1);
+  }
+
+  return splitHolder.join(" ");
+}
+
 $("#search-button").on('click', function(event) {
   event.preventDefault();
-  // var city = $('#city-name-search').val();
-  // var city = "chicago";
-  // getCity(city);
+  var trackerBool = false;
   cityNamesArray = [];
   for(var i = 1; i < 4; i++) {
-    console.log($(`#city-name-search-${i}`).val());
-    cityNamesArray.push($(`#city-name-search-${i}`).val());
+    var valHolder = $(`#city-name-search-${i}`).val();
+    // console.log(valHolder);
+    var boolHolder = checkForNumbers(valHolder);
+    // console.log(boolHolder);
+    if(boolHolder) {
+      trackerBool = true;
+    }
+    cityNamesArray.push(capitalizeFirstLetter(valHolder));
   }
-  save();
-  window.location.href = "index2.html";
+
+  if(trackerBool) {
+    alert("At least one of your entries contains numbers. Please re-enter city names");
+  } else {
+    // console.log("no numbers found");
+    save();
+    window.location.href = "index2.html";
+  }
 });
 
 init();
