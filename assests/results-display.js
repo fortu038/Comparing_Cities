@@ -8,12 +8,10 @@ var carImg;
 var cardBody;
 var cardTitle;
 var cardItems;
-var cityPop;
 
 // Functions to navigate through API and get the proper data
 
 function getCity(city) {
-  cardTitle.text(city);
   fetch('https://api.teleport.org/api/cities/?search=' + city)
   .then(function (response) {
     return response.json();
@@ -31,16 +29,14 @@ function getAPI(city) {
   })
   .then(function (data) {
     console.log(data);
-    cityPop = data.population;
+    var cityName = data.full_name;
+    var cityPop = data.population;
+    console.log(cityPop);
     var country = data._links["city:country"].href;
     var urbanArea = data._links["city:urban_area"].href;
     getUA(urbanArea);
-    displayPopulation();
+    createTopCard(cityName, cityPop);
   });
-}
-
-function displayPopulation() {
-  cardItems.text("Population: " + cityPop)
 }
 
 function getUA(UA) {
@@ -77,7 +73,6 @@ function getUAdetails(details) {
   .then(function (data) {
     // console.log(data);
     // var cat = data.categories;
-    // var citySize = cat[1].data[0].float_value;
   });
 }
 
@@ -92,25 +87,23 @@ function getUAsalaries(salaries) {
 }
 
 // Functions to dynamically create the cards and append the cards to the desired info
-function createCard(){
+function createTopCard(city, cityPop){
   cardDeck=$('.card-deck');
 
-  card=$('<div class=card>');
+  card=$("<div class='col-12 card'>");
   carImg=$('<img class=card-img-top>');
   cardBody=$('<div class=card-body>');
   cardTitle=$('<h5 class=card-title>');
   cardItems=$('<p>');
+
+  cardTitle.text(city)
+  cardItems.text("Population: " + cityPop)
   cardDeck.append(card);
   card.append(carImg,cardBody);
   cardBody.append(cardTitle, cardItems);
   
 }
 
-// function createTitleEl() {
-//   var title = 
-// }
-
 for (var i = 0; i < citySearches.length; i++) {
-  createCard();
   getCity(citySearches[i]);
 }
