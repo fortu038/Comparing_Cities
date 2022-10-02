@@ -1,0 +1,45 @@
+body{
+  font-family: 'lato',sans-serif
+}
+h2{
+  align-content: center;
+}
+
+header{
+  outline: 5px solid black;
+  background-color: cornflowerblue;
+  color: white;
+  text-align: center;
+  padding: 10px;
+}
+
+footer {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  color: white;
+  text-align: center;
+}
+.container{
+  border: 2px solid black;
+  outline-style: outset;
+  outline-color: grey;
+  position: relative;
+  top: 50px;
+  margin-bottom: 4em;
+}
+.textTitle{
+  text-align: center;
+}
+
+.imgfoot{
+  width: 100%;
+  height: 40em;
+}
+
+@media (max-width: 900px) {
+  footer{
+    display: none;
+  }
+}

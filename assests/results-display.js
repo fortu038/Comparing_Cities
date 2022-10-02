@@ -9,6 +9,7 @@ var cardBody;
 var cardTitle;
 var cardItems;
 var cityName;
+var cityPop;
 
 // Functions to navigate through API and get the proper data
 
@@ -18,6 +19,7 @@ function getCity(city) {
     return response.json();
   })
   .then(function (data) {
+
     var geo = data._embedded["city:search-results"][0]._links["city:item"].href;
     getAPI(geo);
   });
@@ -30,11 +32,8 @@ function getAPI(city) {
   })
   .then(function (data) {
     cityName = data.name;
-    var cityPop = data.population;
-    var country = data._links["city:country"].href;
     var urbanArea = data._links["city:urban_area"].href;
     getUA(urbanArea);
-    createTopCard(cityName, cityPop);
   });
 }
 
@@ -44,79 +43,132 @@ function getUA(UA) {
     return response.json();
   })
   .then(function (data) {
-    var scores = data._links["ua:scores"].href;
+    // var scores = data._links["ua:scores"].href;
     var details = data._links["ua:details"].href;
-    var salaries = data._links["ua:salaries"].href;
-    getUAscores(scores);
-    getUAdetails(details);
-    getUAsalaries(salaries);
+    // var salaries = data._links["ua:salaries"].href;
+    var cityName = data.name;
+    // getUAscores(scores);
+    getUAdetails(details, cityName);
+    // getUAsalaries(salaries);
   });
 }
 
-function getUAscores(scores) {
-  fetch(scores)
-  .then(function (response) {
-    return response.json();
-  })
-  .then(function (data) {
-    // console.log(data);
-  });
-}
+// function getUAscores(scores) {
+//   fetch(scores)
+//   .then(function (response) {
+//     return response.json();
+//   })
+//   .then(function (data) {
+//   });
+// }
 
-function getUAdetails(details) {
+function getUAdetails(details, UAname) {
   fetch(details)
   .then(function (response) {
     return response.json();
   })
   .then(function (data) {
-    // console.log(data);
-    // var cat = data.categories;
-    createSecondCard();
+    var colInfo = data.categories.find(x => x.id == "COST-OF-LIVING").data;
+    var rentInfo = data.categories.find(x => x.id == "HOUSING").data;
+    var climateInfo = data.categories.find(x => x.id == "CLIMATE")?.data;
+    var popSize = data.categories.find(x => x.id == "CITY-SIZE").data[0].float_value;
+    var UA = UAname;
+    console.log(climateInfo);
+    createTopCard(UA);
+    createSecondCard(colInfo, rentInfo, climateInfo, popSize);
   });
 }
 
-function getUAsalaries(salaries) {
-  fetch(salaries)
-  .then(function (response) {
-    return response.json();
-  })
-  .then(function (data) {
-    // console.log(data);
-  });
-}
+// function getUAsalaries(salaries) {
+//   fetch(salaries)
+//   .then(function (response) {
+//     return response.json();
+//   })
+//   .then(function (data) {
+//   });
+// }
 
 // Functions to dynamically create the cards and append the cards to the desired info
-function createTopCard(city, cityPop){
+function createTopCard(UA){
   cardDeck=$('.city-card-group');
 
-  card=$("<div class='col-12 card'>");
+  card=$("<div class='col-12 card border-info'>");
   carImg=$('<img class=card-img-top>');
-  cardBody=$('<div class=card-body>');
-  cardTitle=$('<h5 class=card-title>');
-  cardItems=$('<p>');
+  cardBody=$("<div class='card-body text-info'>");
+  cardTitle=$("<h3 class='card-title text-info'>");
 
-  cardTitle.text(city)
-  cardItems.text("Population: " + cityPop)
+  cardTitle.text(UA)
   cardDeck.append(card);
   card.append(carImg,cardBody);
-  cardBody.append(cardTitle, cardItems);
-  
+  cardBody.append(cardTitle);
 }
 
-function createSecondCard(){
+function createSecondCard(colInfo, rentInfo, climateInfo, popInfo){
   cardDeck=$('.ua-card-group');
-
+  
   card=$("<div class='col-12 card'>");
-  carImg=$('<img class=card-img-top>');
   cardBody=$('<div class=card-body>');
   cardTitle=$('<h5 class=card-title>');
-  cardItems=$('<p>');
-
   cardDeck.append(card);
-  card.append(carImg,cardBody);
-  cardBody.append(cardTitle, cardItems);
+  card.append(cardBody);
+
+  cardTitle.text("Urban Area Population");
+  cardBody.append(cardTitle);
+  cardItems=$('<p>').text(popInfo + " million");
+  cardBody.append(cardItems);
   
-}
+  cardTitle=$('<h5 class=card-title>');
+  cardTitle.text("Cost of Living");
+  
+  cardBody.append(cardTitle);
+
+  if (colInfo == null) {
+    cardItems=$('<p>');
+    cardItems.text("No Data Available");
+    cardBody.append(cardItems);
+  } else {
+    for (var i=1; i<colInfo.length; i++) {
+      var cost = colInfo[i].currency_dollar_value;
+      var label = colInfo[i].label;
+      cardItems=$('<p>');
+      cardItems.text(label + ": $" + cost);
+      cardBody.append(cardItems)
+    }
+    for (var i=0; i<rentInfo.length-1; i++) {
+      var cost = rentInfo[i].currency_dollar_value;
+      var label = rentInfo[i].label;
+      cardItems=$('<p>');
+      cardItems.text(label + ": $" + cost + "/monthly");
+      cardBody.append(cardItems)
+    }
+  }
+
+  cardTitle=$('<h5 class=card-title>');
+  cardTitle.text("Climate");
+  cardBody.append(cardTitle);
+
+  if (climateInfo == null) {
+    cardItems=$('<p>');
+    cardItems.text("No Data Available");
+    cardBody.append(cardItems);
+  } else {
+    for (var i=0; i<climateInfo.length; i++) {
+      var value = climateInfo[i].float_value;
+      var label = climateInfo[i].label;
+      if (value == null) {
+        value = climateInfo[i].percent_value;
+      }
+      if (value == null) {
+        value = climateInfo[i].string_value;
+      }
+      cardItems=$('<p>');
+      cardItems.text(label + ": " + value);
+      cardBody.append(cardItems);
+    }
+  }
+};
+
+// Function to get API information on load of second page
 
 for (var i = 0; i < citySearches.length; i++) {
   getCity(citySearches[i]);
