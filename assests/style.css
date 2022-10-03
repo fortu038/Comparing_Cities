@@ -1,6 +1,15 @@
 
+body{
+    font-family: 'lato',sans-serif
+}
+
+
 header{
-    padding: 50px;
+    padding: 20px;
+    background-color: cornflowerblue;
+    color: white;
+    outline: 5px solid black;
+    text-align: center;
 }
 
 #return {
@@ -9,4 +18,25 @@ header{
 
 .card-title {
     text-transform: capitalize;
+}
+
+h5{
+    /* text-align: center; */
+    text-decoration: underline;
+    font-weight: bold;
+}
+
+.city-card-group{
+    text-align: center;
+    color: black;
+}
+
+h3{
+    color: black;
+    font-weight: bold
+}
+
+p {
+    font-size: 18px;
+    line-height: 24px;
 }
