@@ -10,7 +10,8 @@ var cardTitle;
 var cardItems;
 var cityName;
 var cityPop;
-
+var chartDiv;
+var chartContainer;
 // Functions to navigate through API and get the proper data
 
 function getCity(city) {
@@ -48,18 +49,19 @@ function getUA(UA) {
     // var salaries = data._links["ua:salaries"].href;
     var cityName = data.name;
     getUAdetails(details, cityName);
-    getUAscores(scores);
+    getUAscores(scores, cityName);
     // getUAsalaries(salaries);
   });
 }
 
-function getUAscores(scores) {
+function getUAscores(scores, cityName) {
   fetch(scores)
   .then(function (response) {
     return response.json();
   })
   .then(function (data) {
     console.log(data);
+    createGraph(data, cityName);
   });
 }
 
@@ -76,7 +78,6 @@ function getUAdetails(details, UAname) {
     var UA = UAname;
     createTopCard(UA);
     createSecondCard(colInfo, rentInfo, climateInfo, popSize);
-    createGraph(colInfo, rentInfo, climateInfo, popSize);
   });
 
 }
@@ -171,26 +172,36 @@ function createSecondCard(colInfo, rentInfo, climateInfo, popInfo){
 };
 
 // Functions to create a graph with desired info
-function createGraph (colInfo, rentInfo, climateInfo, popSize) {
+function createGraph (scores, cityName) {
+  var charts = $('.charts')
+  chartDiv = $('<div class=chartContainer>')
+  console.log(cityName)
+  
   var chart = c3.generate({
     data: {
-        x : 'x',
-        columns: [
-            ['x', citySearches[0], citySearches[1], citySearches[2]],
-            ['download', 30, 200, 100],
-            ['loading', 90, 100, 140],
-        ],
-        groups: [
-            ['download', 'loading']
-        ],
-        type: 'bar'
+      x : 'x',
+      columns: [
+        ['x', cityName],
+        [scores.categories[0].name, scores.categories[0].score_out_of_10],
+        [scores.categories[1].name, scores.categories[1].score_out_of_10],
+        [scores.categories[2].name, scores.categories[2].score_out_of_10],
+      ],
+      groups: [
+        [scores.categories[0].name, ]
+      ],
+      type: 'bar'
     },
     axis: {
-        x: {
-            type: 'category' // this needed to load string x value
-        }
+      x: {
+        type: 'category' // this needed to load string x value
+      }
     }
+    
   });
+  
+  console.log(chart)
+  charts.append(chartDiv)
+  chartDiv.append(chart)
 }
 // Function to get API information on load of second page
 
@@ -198,35 +209,3 @@ for (var i = 0; i < citySearches.length; i++) {
   getCity(citySearches[i]);
 }
 
-//chart
-
-<<<<<<< HEAD
-var chart = c3.generate({
-  size: {
-    height: 240,
-    width: 480
-  },
-  data: {
-      x : 'x',
-      columns: [
-          ['x', citySearches[0], citySearches[1], citySearches[2]],
-          ['download', 30, 200, 100, 400],
-          ['loading', 900, 100, 140, 200],
-      ],
-      groups: [
-          ['download', 'loading']
-      ],
-      type: 'bar'
-  },
-  color: {
-    pattern: ['red', 'blue']
-  },
-  axis: {
-      x: {
-          type: 'category'
-      }
-  }
-});
-
-=======
->>>>>>> 54d08f7e50feaae300ad0210fd9417bd2cef226a
