@@ -10,8 +10,6 @@ var cardTitle;
 var cardItems;
 var cityName;
 var cityPop;
-var chartDiv;
-var chartContainer;
 // Functions to navigate through API and get the proper data
 
 function getCity(city) {
@@ -20,7 +18,6 @@ function getCity(city) {
     return response.json();
   })
   .then(function (data) {
-
     var geo = data._embedded["city:search-results"][0]._links["city:item"].href;
     getAPI(geo);
   });
@@ -164,6 +161,10 @@ function createGraph (scores, cityName) {
   var chartName = "A" + Math.random().toString(36).substring(2,7);
   var chartsDiv = $('#charts-container');
   var newChartContainer = $('<div id="' + chartName + '"/>');
+  var chartTitleEl = $('<h4>')
+  var chartTitle = "Transport API Scores Chart";
+  chartTitleEl.text(chartTitle);
+  chartsDiv.append(chartTitleEl);
   chartsDiv.append(newChartContainer);
 
   c3.generate({
@@ -195,7 +196,10 @@ function createGraph (scores, cityName) {
     axis: {
       x: {
         type: 'category' // this needed to load string x value
-      }
+      },
+      y: {
+        max: 9.1
+      },
     }
   });
 }
