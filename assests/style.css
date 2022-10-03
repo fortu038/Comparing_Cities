@@ -33,3 +33,19 @@ h5 {
     text-align: center;
     color: black;
 }
+
+h3{
+    color: black;
+    font-weight: bold
+}
+
+p {
+    font-size: 18px;
+    line-height: 24px;
+}
+
+h4 {
+    text-align: center;
+    margin-top: 5px;
+
+}
