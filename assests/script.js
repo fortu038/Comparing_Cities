@@ -74,7 +74,8 @@ var cityNamesArray = [];
 
 
 // Helper function that initializes cityNamesArray from local storage, setting it to [] if it does not exist
-// in local storage or to the value in local storage if it exists
+// in local storage or to the value in local storage if it exists. Also autofills the search boxes with the
+// values from local storage if they exist
 function init() {
   var holder = JSON.parse(localStorage.getItem("cityNamesArray"));
 
@@ -82,6 +83,9 @@ function init() {
     cityNamesArray = [];
   } else {
     cityNamesArray = holder;
+    for(var i = 0; i < cityNamesArray.length; i++) {
+      $(`#city-name-search-${i+1}`).val(cityNamesArray[i]);
+    }
   }
   save();
 }
@@ -154,4 +158,3 @@ $("#search-button").on('click', function(event) {
 });
 
 init();
-

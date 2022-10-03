@@ -43,24 +43,25 @@ function getUA(UA) {
     return response.json();
   })
   .then(function (data) {
-    // var scores = data._links["ua:scores"].href;
+    var scores = data._links["ua:scores"].href;
     var details = data._links["ua:details"].href;
     // var salaries = data._links["ua:salaries"].href;
     var cityName = data.name;
-    // getUAscores(scores);
     getUAdetails(details, cityName);
+    getUAscores(scores);
     // getUAsalaries(salaries);
   });
 }
 
-// function getUAscores(scores) {
-//   fetch(scores)
-//   .then(function (response) {
-//     return response.json();
-//   })
-//   .then(function (data) {
-//   });
-// }
+function getUAscores(scores) {
+  fetch(scores)
+  .then(function (response) {
+    return response.json();
+  })
+  .then(function (data) {
+    console.log(data);
+  });
+}
 
 function getUAdetails(details, UAname) {
   fetch(details)
@@ -73,9 +74,9 @@ function getUAdetails(details, UAname) {
     var climateInfo = data.categories.find(x => x.id == "CLIMATE")?.data;
     var popSize = data.categories.find(x => x.id == "CITY-SIZE").data[0].float_value;
     var UA = UAname;
-    console.log(climateInfo);
     createTopCard(UA);
     createSecondCard(colInfo, rentInfo, climateInfo, popSize);
+    createGraph(colInfo, rentInfo, climateInfo, popSize);
   });
 
 }
@@ -169,6 +170,28 @@ function createSecondCard(colInfo, rentInfo, climateInfo, popInfo){
   }
 };
 
+// Functions to create a graph with desired info
+function createGraph (colInfo, rentInfo, climateInfo, popSize) {
+  var chart = c3.generate({
+    data: {
+        x : 'x',
+        columns: [
+            ['x', citySearches[0], citySearches[1], citySearches[2]],
+            ['download', 30, 200, 100],
+            ['loading', 90, 100, 140],
+        ],
+        groups: [
+            ['download', 'loading']
+        ],
+        type: 'bar'
+    },
+    axis: {
+        x: {
+            type: 'category' // this needed to load string x value
+        }
+    }
+  });
+}
 // Function to get API information on load of second page
 
 for (var i = 0; i < citySearches.length; i++) {
@@ -177,6 +200,7 @@ for (var i = 0; i < citySearches.length; i++) {
 
 //chart
 
+<<<<<<< HEAD
 var chart = c3.generate({
   size: {
     height: 240,
@@ -204,3 +228,5 @@ var chart = c3.generate({
   }
 });
 
+=======
+>>>>>>> 54d08f7e50feaae300ad0210fd9417bd2cef226a
