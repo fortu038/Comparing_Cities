@@ -30,6 +30,7 @@ footer img {
 #search-button {
   color: white;
   background-color: cornflowerblue;
+  margin: 5px;
 }
 
 .container {
@@ -45,4 +46,9 @@ footer img {
   footer{
     display: none;
   }
+}
+
+button:hover{
+  box-shadow: rgba(21, 21, 44, 0.925) 0px 30px 60px -12px inset,
+    rgba(0, 0, 0, 0.3) 0px 18px 36px -18px inset;
 }
