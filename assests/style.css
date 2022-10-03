@@ -21,18 +21,9 @@ h3 {
 }
 
 h5 {
-    /* text-align: center; */
     text-decoration: underline;
     font-weight: bold;
 }
-
-/* #return {
-    text-align: center;
-} */
-
-/* .card-title {
-    text-transform: capitalize;
-} */
 
 .city-card-group {
     text-align: center;
