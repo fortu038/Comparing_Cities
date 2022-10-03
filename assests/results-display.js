@@ -18,6 +18,7 @@ function getCity(city) {
     return response.json();
   })
   .then(function (data) {
+    console.log(data);
     var geo = data._embedded["city:search-results"][0]._links["city:item"].href;
     getAPI(geo);
   });
@@ -29,7 +30,6 @@ function getAPI(city) {
     return response.json();
   })
   .then(function (data) {
-    cityName = data.name;
     var urbanArea = data._links["city:urban_area"].href;
     getUA(urbanArea);
   });
@@ -43,7 +43,7 @@ function getUA(UA) {
   .then(function (data) {
     var scores = data._links["ua:scores"].href;
     var details = data._links["ua:details"].href;
-    var cityName = data.name;
+    var cityName = data.full_name;
     getUAdetails(details, cityName);
     getUAscores(scores, cityName);
   });
@@ -195,7 +195,7 @@ function createGraph (scores, cityName) {
     },
     axis: {
       x: {
-        type: 'category' // this needed to load string x value
+        type: 'category'
       },
       y: {
         max: 9.1
