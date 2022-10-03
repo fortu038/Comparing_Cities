@@ -144,9 +144,9 @@ $("#search-button").on('click', function(event) {
   }
 
   if(numTrackerBool) {
-    alert("At least one of your entries contains numbers. Please re-enter city names.");
+    swal("At least one of your entries contains numbers. Please re-enter city names.");
   } else if(blankTrackerBool) {
-    alert("At least one of your entries is blank, just spaces, or has a leading space. Please re-enter city names.")
+    swal("At least one of your entries is blank, just spaces, or has a leading space. Please re-enter city names.")
   } else {
     save();
     window.location.href = "index2.html";

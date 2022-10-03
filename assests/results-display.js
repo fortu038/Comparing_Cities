@@ -77,6 +77,7 @@ function getUAdetails(details, UAname) {
     createTopCard(UA);
     createSecondCard(colInfo, rentInfo, climateInfo, popSize);
   });
+
 }
 
 // function getUAsalaries(salaries) {
@@ -202,3 +203,4 @@ var chart = c3.generate({
       }
   }
 });
+
