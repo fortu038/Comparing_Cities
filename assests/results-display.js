@@ -95,10 +95,10 @@ function getUAdetails(details, UAname) {
 function createTopCard(UA){
   cardDeck=$('.city-card-group');
 
-  card=$("<div class='col-12 card border-info'>");
+  card=$("<div class='col-12 card border-dark'>");
   carImg=$('<img class=card-img-top>');
-  cardBody=$("<div class='card-body text-info'>");
-  cardTitle=$("<h3 class='card-title text-info'>");
+  cardBody=$("<div class='card-body '>");
+  cardTitle=$("<h3 class='card-title '>");
 
   cardTitle.text(UA)
   cardDeck.append(card);
