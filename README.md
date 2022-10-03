@@ -14,7 +14,7 @@ Conor Fortuna, Trey Kockelman, Tristan Hanson, Ivan Bonilla
 
 ## Screenshot 
 
-![screenshot of website](../../../Downloads/ivabon.github.io_01-group-project_.png)
+![Screenshot of website](images/ivabon.github.io_01-group-project_.png)
 
 
 
