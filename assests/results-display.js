@@ -46,11 +46,9 @@ function getUA(UA) {
   .then(function (data) {
     var scores = data._links["ua:scores"].href;
     var details = data._links["ua:details"].href;
-    // var salaries = data._links["ua:salaries"].href;
     var cityName = data.name;
     getUAdetails(details, cityName);
     getUAscores(scores, cityName);
-    // getUAsalaries(salaries);
   });
 }
 
@@ -60,7 +58,6 @@ function getUAscores(scores, cityName) {
     return response.json();
   })
   .then(function (data) {
-    console.log(data);
     createGraph(data, cityName);
   });
 }
@@ -81,15 +78,6 @@ function getUAdetails(details, UAname) {
   });
 
 }
-
-// function getUAsalaries(salaries) {
-//   fetch(salaries)
-//   .then(function (response) {
-//     return response.json();
-//   })
-//   .then(function (data) {
-//   });
-// }
 
 // Functions to dynamically create the cards and append the cards to the desired info
 function createTopCard(UA){
@@ -173,11 +161,13 @@ function createSecondCard(colInfo, rentInfo, climateInfo, popInfo){
 
 // Functions to create a graph with desired info
 function createGraph (scores, cityName) {
-  var charts = $('.charts')
-  chartDiv = $('<div class=chartContainer>')
-  console.log(cityName)
-  
-  var chart = c3.generate({
+  var chartName = cityName.split(' ').join('');
+  var chartsDiv = $('#charts-container');
+  var newChartContainer = $('<div id="' + chartName + '"/>');
+  chartsDiv.append(newChartContainer);
+
+  c3.generate({
+    bindto: '#' + chartName,
     data: {
       x : 'x',
       columns: [
@@ -185,10 +175,22 @@ function createGraph (scores, cityName) {
         [scores.categories[0].name, scores.categories[0].score_out_of_10],
         [scores.categories[1].name, scores.categories[1].score_out_of_10],
         [scores.categories[2].name, scores.categories[2].score_out_of_10],
+        [scores.categories[3].name, scores.categories[3].score_out_of_10],
+        [scores.categories[4].name, scores.categories[4].score_out_of_10],
+        [scores.categories[5].name, scores.categories[5].score_out_of_10],
+        [scores.categories[6].name, scores.categories[6].score_out_of_10],
+        [scores.categories[7].name, scores.categories[7].score_out_of_10],
+        [scores.categories[8].name, scores.categories[8].score_out_of_10],
+        [scores.categories[9].name, scores.categories[9].score_out_of_10],
+        [scores.categories[10].name, scores.categories[10].score_out_of_10],
+        [scores.categories[11].name, scores.categories[11].score_out_of_10],
+        [scores.categories[12].name, scores.categories[12].score_out_of_10],
+        [scores.categories[13].name, scores.categories[13].score_out_of_10],
+        [scores.categories[14].name, scores.categories[14].score_out_of_10],
+        [scores.categories[15].name, scores.categories[15].score_out_of_10],
+        [scores.categories[16].name, scores.categories[16].score_out_of_10],
       ],
-      groups: [
-        [scores.categories[0].name, ]
-      ],
+      groups: [ ],
       type: 'bar'
     },
     axis: {
@@ -196,12 +198,7 @@ function createGraph (scores, cityName) {
         type: 'category' // this needed to load string x value
       }
     }
-    
   });
-  
-  console.log(chart)
-  charts.append(chartDiv)
-  chartDiv.append(chart)
 }
 // Function to get API information on load of second page
 
