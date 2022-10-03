@@ -1,10 +1,8 @@
-
-body{
+body {
     font-family: 'lato',sans-serif
 }
 
-
-header{
+header {
     padding: 20px;
     background-color: cornflowerblue;
     color: white;
@@ -12,21 +10,26 @@ header{
     text-align: center;
 }
 
-#return {
-    text-align: center;
+footer a:hover {
+    text-decoration: none;
 }
 
-.card-title {
-    text-transform: capitalize;
+p {
+    font-size: 18px;
+    line-height: 24px;
 }
 
-h5{
-    /* text-align: center; */
+h3 {
+    color: black;
+    font-weight: bold
+}
+
+h5 {
     text-decoration: underline;
     font-weight: bold;
 }
 
-.city-card-group{
+.city-card-group {
     text-align: center;
     color: black;
 }
@@ -44,4 +47,5 @@ p {
 h4 {
     text-align: center;
     margin-top: 5px;
+
 }
