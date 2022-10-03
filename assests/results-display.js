@@ -161,7 +161,7 @@ function createSecondCard(colInfo, rentInfo, climateInfo, popInfo){
 
 // Functions to create a graph with desired info
 function createGraph (scores, cityName) {
-  var chartName = cityName.split(' ').join('');
+  var chartName = "A" + Math.random().toString(36).substring(2,7);
   var chartsDiv = $('#charts-container');
   var newChartContainer = $('<div id="' + chartName + '"/>');
   chartsDiv.append(newChartContainer);
@@ -190,7 +190,6 @@ function createGraph (scores, cityName) {
         [scores.categories[15].name, scores.categories[15].score_out_of_10],
         [scores.categories[16].name, scores.categories[16].score_out_of_10],
       ],
-      groups: [ ],
       type: 'bar'
     },
     axis: {
@@ -205,4 +204,3 @@ function createGraph (scores, cityName) {
 for (var i = 0; i < citySearches.length; i++) {
   getCity(citySearches[i]);
 }
-
