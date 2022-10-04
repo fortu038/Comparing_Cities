@@ -151,14 +151,14 @@ $("#search-button").on('click', function(event) {
   if(numTrackerBool) {
     swal("At least one of your entries contains numbers. Please re-enter city names.");
   } else if(blankTrackerBool) {
-    swal("At least one of your entries is blank, just spaces, or has a leading space. Please re-enter city names.", {
+    swal("At least one of your options is blank. If you'd like to add another city you can type it here", {
       content: "input",
       icon: "warning",
+      buttons: ["Continue without adding", "add"],
     })
     .then((value) => {
       swal(`you typed: ${value}`);
       cityNamesArray.push(value)
-      console.log(cityNamesArray)
       save();
       window.location.href = "index2.html";
     });
