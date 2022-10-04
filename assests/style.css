@@ -1,10 +1,8 @@
-
-body{
+body {
     font-family: 'lato',sans-serif
 }
 
-
-header{
+header {
     padding: 20px;
     background-color: cornflowerblue;
     color: white;
@@ -12,31 +10,31 @@ header{
     text-align: center;
 }
 
-#return {
-    text-align: center;
-}
-
-.card-title {
-    text-transform: capitalize;
-}
-
-h5{
-    /* text-align: center; */
-    text-decoration: underline;
-    font-weight: bold;
-}
-
-.city-card-group{
-    text-align: center;
-    color: black;
-}
-
-h3{
-    color: black;
-    font-weight: bold
+footer a:hover {
+    text-decoration: none;
 }
 
 p {
     font-size: 18px;
     line-height: 24px;
+}
+
+h3 {
+    color: black;
+    font-weight: bold
+}
+
+h4 {
+    text-align: center;
+    margin-top: 5px;
+}
+
+h5 {
+    text-decoration: underline;
+    font-weight: bold;
+}
+
+.city-card-group {
+    text-align: center;
+    color: black;
 }
