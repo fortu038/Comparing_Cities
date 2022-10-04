@@ -85,14 +85,14 @@ $("#search-button").on('click', function(event) {
       buttons: ["Continue without adding", "add"],
     })
     .then((value) => {
-      if(value == ""){
-        save()
+      if((value == "" || value == null) && cityNamesArray.length == 0) {
+        save();
+        swal("No entries, cannot run search!");
+      } else {
+        cityNamesArray.push(value);
+        save();
         window.location.href = "index2.html";
-    }else{
-      cityNamesArray.push(value)
-      save();
-      window.location.href = "index2.html";
-    }
+      }
     });
   } else {
     save();
