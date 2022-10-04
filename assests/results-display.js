@@ -1,4 +1,4 @@
-//Global Variables
+// Number formatting funcions
 
 const currency = Intl.NumberFormat('en', {
   style: 'currency',
@@ -13,9 +13,11 @@ const currencyCommaless = Intl.NumberFormat('en', {
 
 const threeDigitFormat = Intl.NumberFormat('en', {maximumSignificantDigits: 3});
 
+const baseNumberFormat = Intl.NumberFormat('en', {style: 'decimal', maximumFractionDigits: 0});
+
 const percentFormat = Intl.NumberFormat('en', {style: 'percent'});
 
-const baseNumberFormat = Intl.NumberFormat('en', {style: 'decimal'});
+//Global Variables
 
 var citySearches = JSON.parse(localStorage.getItem("cityNamesArray"));
 
@@ -27,6 +29,7 @@ var cardTitle;
 var cardItems;
 var cityName;
 var cityPop;
+
 // Functions to navigate through API and get the proper data
 
 function getCity(city) {
@@ -130,7 +133,7 @@ function createSecondCard(colInfo, rentInfo, climateInfo, popInfo){
 
   cardTitle.text("Urban Area Population");
   cardBody.append(cardTitle);
-  cardItems=$('<p>').text(threeDigitFormat.format(popInfo) + " million");
+  cardItems=$('<p>').text(baseNumberFormat.format(popInfo * 1000000));
   cardBody.append(cardItems);
   
   cardTitle=$('<h5 class=card-title>');

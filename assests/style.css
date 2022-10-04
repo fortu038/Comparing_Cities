@@ -48,6 +48,14 @@ h5 {
     width: auto;
 }
 
+p:hover {
+    scale: 1.08;
+    border: 1px solid black;
+    box-shadow: 5px 4px #00000010;
+    border-radius: 2px;
+    padding-left: 4px;
+}
+
 @media (max-width: 900px) {
     footer{
         display: flex;
