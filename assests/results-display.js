@@ -18,7 +18,6 @@ function getCity(city) {
     return response.json();
   })
   .then(function (data) {
-    console.log(data);
     var geo = data._embedded["city:search-results"][0]._links["city:item"].href;
     getAPI(geo);
   });
@@ -43,9 +42,21 @@ function getUA(UA) {
   .then(function (data) {
     var scores = data._links["ua:scores"].href;
     var details = data._links["ua:details"].href;
+    var images = data._links["ua:images"].href
     var cityName = data.full_name;
-    getUAdetails(details, cityName);
+    getUAImages(images, details, cityName);
     getUAscores(scores, cityName);
+  });
+}
+
+function getUAImages(images, details, cityName) {
+  fetch(images)
+  .then(function (response) {
+    return response.json();
+  })
+  .then(function (data) {
+    var cityImage = data.photos[0].image.web
+    getUAdetails(details, cityName, cityImage);
   });
 }
 
@@ -59,7 +70,7 @@ function getUAscores(scores, cityName) {
   });
 }
 
-function getUAdetails(details, UAname) {
+function getUAdetails(details, UAname, image) {
   fetch(details)
   .then(function (response) {
     return response.json();
@@ -69,15 +80,13 @@ function getUAdetails(details, UAname) {
     var rentInfo = data.categories.find(x => x.id == "HOUSING").data;
     var climateInfo = data.categories.find(x => x.id == "CLIMATE")?.data;
     var popSize = data.categories.find(x => x.id == "CITY-SIZE").data[0].float_value;
-    var UA = UAname;
-    createTopCard(UA);
+    createTopCard(UAname, image);
     createSecondCard(colInfo, rentInfo, climateInfo, popSize);
   });
-
 }
 
 // Functions to dynamically create the cards and append the cards to the desired info
-function createTopCard(UA){
+function createTopCard(UA, image){
   cardDeck=$('.city-card-group');
 
   card=$("<div class='col-12 card border-dark'>");
@@ -85,10 +94,11 @@ function createTopCard(UA){
   cardBody=$("<div class='card-body '>");
   cardTitle=$("<h3 class='card-title '>");
 
-  cardTitle.text(UA)
+  cardTitle.text(UA);
   cardDeck.append(card);
   card.append(carImg,cardBody);
   cardBody.append(cardTitle);
+  carImg.attr("src", image);
 }
 
 function createSecondCard(colInfo, rentInfo, climateInfo, popInfo){
