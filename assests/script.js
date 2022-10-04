@@ -150,7 +150,12 @@ $("#search-button").on('click', function(event) {
   if(numTrackerBool) {
     swal("At least one of your entries contains numbers. Please re-enter city names.");
   } else if(blankTrackerBool) {
-    swal("At least one of your entries is blank, just spaces, or has a leading space. Please re-enter city names.")
+    swal("At least one of your entries is blank, just spaces, or has a leading space. Please re-enter city names.", {
+      content: "input",
+    })
+    .then((value) => {
+      swal(`you typed: ${value}`);
+    });
   } else {
     save();
     window.location.href = "index2.html";
