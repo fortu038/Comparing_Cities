@@ -145,6 +145,7 @@ $("#search-button").on('click', function(event) {
     } else {
       cityNamesArray.push(capitalizeFirstLetter(valHolder));
     }
+
   }
 
   if(numTrackerBool) {
@@ -152,9 +153,14 @@ $("#search-button").on('click', function(event) {
   } else if(blankTrackerBool) {
     swal("At least one of your entries is blank, just spaces, or has a leading space. Please re-enter city names.", {
       content: "input",
+      icon: "warning",
     })
     .then((value) => {
       swal(`you typed: ${value}`);
+      cityNamesArray.push(value)
+      console.log(cityNamesArray)
+      save();
+      window.location.href = "index2.html";
     });
   } else {
     save();
