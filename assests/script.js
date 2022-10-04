@@ -85,10 +85,14 @@ $("#search-button").on('click', function(event) {
       buttons: ["Continue without adding", "add"],
     })
     .then((value) => {
-      swal(`you typed: ${value}`);
+      if(value == ""){
+        save()
+        window.location.href = "index2.html";
+    }else{
       cityNamesArray.push(value)
       save();
       window.location.href = "index2.html";
+    }
     });
   } else {
     save();
