@@ -10,6 +10,7 @@ var cardTitle;
 var cardItems;
 var cityName;
 var cityPop;
+var image;
 // Functions to navigate through API and get the proper data
 
 function getCity(city) {
@@ -18,7 +19,6 @@ function getCity(city) {
     return response.json();
   })
   .then(function (data) {
-    console.log(data);
     var geo = data._embedded["city:search-results"][0]._links["city:item"].href;
     getAPI(geo);
   });
@@ -43,9 +43,21 @@ function getUA(UA) {
   .then(function (data) {
     var scores = data._links["ua:scores"].href;
     var details = data._links["ua:details"].href;
+    var images = data._links["ua:images"].href
     var cityName = data.full_name;
+    getUAImages(images);
     getUAdetails(details, cityName);
     getUAscores(scores, cityName);
+  });
+}
+
+function getUAImages(images) {
+  fetch(images)
+  .then(function (response) {
+    return response.json();
+  })
+  .then(function (data) {
+    image = data.photos[0].image.web
   });
 }
 
@@ -69,8 +81,7 @@ function getUAdetails(details, UAname) {
     var rentInfo = data.categories.find(x => x.id == "HOUSING").data;
     var climateInfo = data.categories.find(x => x.id == "CLIMATE")?.data;
     var popSize = data.categories.find(x => x.id == "CITY-SIZE").data[0].float_value;
-    var UA = UAname;
-    createTopCard(UA);
+    createTopCard(UAname);
     createSecondCard(colInfo, rentInfo, climateInfo, popSize);
   });
 
@@ -85,6 +96,7 @@ function createTopCard(UA){
   cardBody=$("<div class='card-body '>");
   cardTitle=$("<h3 class='card-title '>");
 
+  carImg.attr("src", image);
   cardTitle.text(UA)
   cardDeck.append(card);
   card.append(carImg,cardBody);
