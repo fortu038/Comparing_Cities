@@ -1,5 +1,22 @@
 //Global Variables
 
+const currency = Intl.NumberFormat('en', {
+  style: 'currency',
+  currency: 'USD',
+});
+
+const currencyCommaless = Intl.NumberFormat('en', {
+  style: 'currency',
+  currency: 'USD',
+  maximumFractionDigits: 0,
+});
+
+const threeDigitFormat = Intl.NumberFormat('en', {maximumSignificantDigits: 3});
+
+const percentFormat = Intl.NumberFormat('en', {style: 'percent'});
+
+const baseNumberFormat = Intl.NumberFormat('en', {style: 'decimal'});
+
 var citySearches = JSON.parse(localStorage.getItem("cityNamesArray"));
 
 var cardDeck;
@@ -66,6 +83,7 @@ function getUAscores(scores, cityName) {
     return response.json();
   })
   .then(function (data) {
+    createColumns(data, cityName);
     createGraph(data, cityName);
   });
 }
@@ -112,7 +130,7 @@ function createSecondCard(colInfo, rentInfo, climateInfo, popInfo){
 
   cardTitle.text("Urban Area Population");
   cardBody.append(cardTitle);
-  cardItems=$('<p>').text(popInfo + " million");
+  cardItems=$('<p>').text(threeDigitFormat.format(popInfo) + " million");
   cardBody.append(cardItems);
   
   cardTitle=$('<h5 class=card-title>');
@@ -126,17 +144,17 @@ function createSecondCard(colInfo, rentInfo, climateInfo, popInfo){
     cardBody.append(cardItems);
   } else {
     for (var i=1; i<colInfo.length; i++) {
-      var cost = colInfo[i].currency_dollar_value;
+      var cost = currency.format(colInfo[i].currency_dollar_value);
       var label = colInfo[i].label;
       cardItems=$('<p>');
-      cardItems.text(label + ": $" + cost);
+      cardItems.text(label + ": " + cost);
       cardBody.append(cardItems)
     }
     for (var i=0; i<rentInfo.length-1; i++) {
       var cost = rentInfo[i].currency_dollar_value;
       var label = rentInfo[i].label;
       cardItems=$('<p>');
-      cardItems.text(label + ": $" + cost + "/monthly");
+      cardItems.text(label + ": " + currencyCommaless.format(cost) + "/monthly");
       cardBody.append(cardItems)
     }
   }
@@ -154,10 +172,10 @@ function createSecondCard(colInfo, rentInfo, climateInfo, popInfo){
       var value = climateInfo[i].float_value;
       var label = climateInfo[i].label;
       if (value == null) {
-        value = climateInfo[i].percent_value;
+        value = climateInfo[i].string_value;
       }
       if (value == null) {
-        value = climateInfo[i].string_value;
+        value = percentFormat.format(climateInfo[i].percent_value);
       }
       cardItems=$('<p>');
       cardItems.text(label + ": " + value);
@@ -167,6 +185,15 @@ function createSecondCard(colInfo, rentInfo, climateInfo, popInfo){
 };
 
 // Functions to create a graph with desired info
+function createColumns(scores, cityName) {
+  var chartColumns = [];
+  chartColumns.push(['x', cityName])
+  for(let i = 0; i<17; i++) {
+    chartColumns.push([scores.categories[i].name, threeDigitFormat.format(scores.categories[i].score_out_of_10)]);
+  }
+  return chartColumns;
+}
+
 function createGraph (scores, cityName) {
   var chartName = "A" + Math.random().toString(36).substring(2,7);
   var chartsDiv = $('#charts-container');
@@ -181,26 +208,7 @@ function createGraph (scores, cityName) {
     bindto: '#' + chartName,
     data: {
       x : 'x',
-      columns: [
-        ['x', cityName],
-        [scores.categories[0].name, scores.categories[0].score_out_of_10],
-        [scores.categories[1].name, scores.categories[1].score_out_of_10],
-        [scores.categories[2].name, scores.categories[2].score_out_of_10],
-        [scores.categories[3].name, scores.categories[3].score_out_of_10],
-        [scores.categories[4].name, scores.categories[4].score_out_of_10],
-        [scores.categories[5].name, scores.categories[5].score_out_of_10],
-        [scores.categories[6].name, scores.categories[6].score_out_of_10],
-        [scores.categories[7].name, scores.categories[7].score_out_of_10],
-        [scores.categories[8].name, scores.categories[8].score_out_of_10],
-        [scores.categories[9].name, scores.categories[9].score_out_of_10],
-        [scores.categories[10].name, scores.categories[10].score_out_of_10],
-        [scores.categories[11].name, scores.categories[11].score_out_of_10],
-        [scores.categories[12].name, scores.categories[12].score_out_of_10],
-        [scores.categories[13].name, scores.categories[13].score_out_of_10],
-        [scores.categories[14].name, scores.categories[14].score_out_of_10],
-        [scores.categories[15].name, scores.categories[15].score_out_of_10],
-        [scores.categories[16].name, scores.categories[16].score_out_of_10],
-      ],
+      columns: createColumns(scores, cityName),
       type: 'bar'
     },
     axis: {
