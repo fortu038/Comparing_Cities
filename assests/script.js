@@ -91,12 +91,12 @@ $("#search-button").on('click', function(event) {
       } else {
         cityNamesArray.push(value);
         save();
-        window.location.href = "index2.html";
+        window.location.href = "results.html";
       }
     });
   } else {
     save();
-    window.location.href = "index2.html";
+    window.location.href = "results.html";
   }
 });
 
